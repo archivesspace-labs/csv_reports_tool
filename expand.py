@@ -1,4 +1,5 @@
 import csv
+import argparse
 import sys
 import json
 
@@ -48,9 +49,12 @@ def json_keys(cell):
 		return None
 
 def find_json_columns(range_start, range_end):
-	global data, header_row
+	global data, header_row, skip_columns
 	json_columns = {}
 	for column in range(range_start, range_end):
+		if data[header_row][column] in skip_columns:
+			continue
+
 		row = header_row + 1
 
 		while row < len(data):
@@ -141,5 +145,15 @@ def expand(filename):
 
 	print('Done!')	
 
-filename = sys.argv[1]
+parser = argparse.ArgumentParser()
+parser.add_argument('filename', help='The CSV file to process', nargs=1)
+parser.add_argument('-x','--skip-column', help='Specify any columns you not want to expand.', nargs='*')
+
+args = parser.parse_args()
+
+filename = args.filename[0]
+skip_columns = args.skip_column
+if skip_columns == None:
+	skip_columns = []
+
 expand(filename)
