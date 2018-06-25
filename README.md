@@ -23,10 +23,12 @@ The following is an example of how this would look for one row of report data.
 |*2010M-1|Annotation by A. L. (Alfred Leslie) Rowse on clipping|4/6/2018|Yes|0|It's gone, man.|Halpern, Elizabeth|creator||
 |*2010M-1|Annotation by A. L. (Alfred Leslie) Rowse on clipping|4/6/2018|Yes|0|It's gone, man.|Halpern, Elizabeth|subject||
 
-## Limitations
-When there are multiple types of linked records on a row, this tool will generate the cross product (i.e. every possible combination of data). This means that if you have a lot of duplicate data if you use this tool for a report that has many linked records of different type. For instance, if you had an accession that is linked to 2 deaccessions, 4 subjects, and 3 names, you would end up with 2x4x3=24 rows in your expanded CSV report. Its easy to see how this could get exessive quickly.
+## Choosing Which Columns to Expand
+By default, all columns with JSON data will be expanded. However, you can specify columns not to expand through the option `-x` or `--skip-column`. The need for this is explained below.
 
-One way around this is to delete any columns (or change them to a different format that will not be interpreteed as JSON data) you don't need before using this tool. If, in the example above, you only really needed the data for the linked subjects in your report,  you could delete the deaccessions and names columns so that you only ended up with 4 columns for that accession in your report.
+When there are multiple types of linked records on a row, this tool will generate the cross product (i.e. every possible combination of data). This means that you will have a lot of duplicate data if you use this tool for a report that has many linked records of different types and choose to expand all of them. For instance, if you had an accession that is linked to 2 deaccessions, 4 subjects, and 3 names, you would end up with 2x4x3=24 rows in your expanded CSV report. Its easy to see how this could get exessive quickly.
+
+This is why this tool includes an option to specify columns not to expand. If, in the example above, you only really needed to be able to sort by the data for the linked subjects,  you could choose not to expand the deaccessions and names columns so that you only ended up with 4 columns for that accession in your report.
 
 ## How to Run
 With python installed, run `python expand.py path/to/my_report.csv`.
